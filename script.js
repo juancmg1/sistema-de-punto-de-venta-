@@ -171,9 +171,13 @@ function generarComprobante() {
         montoTotal: total,
     };
 
-    
+    const numComprobantes = parseInt(localStorage.getItem("numComprobantes")) || 0;
+    const nuevoNumComprobantes = numComprobantes + 1;
+    localStorage.setItem(`comprobante${nuevoNumComprobantes}`, JSON.stringify(comprobante));
+    localStorage.setItem("numComprobantes", nuevoNumComprobantes);
     console.log("Comprobante generado:", comprobante);
 }
+
 
 document.addEventListener("DOMContentLoaded", function () {
   
@@ -184,6 +188,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const cerrarComprobanteButton = document.getElementById("cerrarComprobante");
     cerrarComprobanteButton.addEventListener("click", cerrarComprobante);
 });
+
+
 
 function mostrarComprobante() {
     const comprobanteModal = document.getElementById("comprobanteModal");
@@ -218,4 +224,39 @@ function mostrarComprobante() {
 function cerrarComprobante() {
     const comprobanteModal = document.getElementById("comprobanteModal");
     comprobanteModal.style.display = "none";
+}
+
+
+
+
+const mostrarComprobantesButton = document.getElementById("mostrarComprobantesButton");
+const comprobanteModal = document.getElementById("comprobanteModal");
+const comprobanteInfo = document.getElementById("comprobanteInfo");
+
+mostrarComprobantesButton.addEventListener("click", mostrarComprobantes);
+
+function mostrarComprobantes() {
+    comprobanteInfo.innerHTML = ""; 
+
+    for (let i = 1; i <= localStorage.getItem("numComprobantes"); i++) {
+        const comprobanteKey = `comprobante${i}`;
+        const comprobanteJSON = localStorage.getItem(comprobanteKey);
+
+        if (comprobanteJSON) {
+            const comprobante = JSON.parse(comprobanteJSON);
+            const comprobanteHTML = `
+                <p><strong>Cliente:</strong> ${comprobante.cliente.nombre}</p>
+                <p><strong>Tipo de DNI:</strong> ${comprobante.cliente.tipoDNI}</p>
+                <p><strong>Número de DNI:</strong> ${comprobante.cliente.numeroDNI}</p>
+                <p><strong>Domicilio:</strong> ${comprobante.cliente.domicilio}</p>
+                <p><strong>Correo Electrónico:</strong> ${comprobante.cliente.email}</p>
+                <p><strong>Tipo de Factura:</strong> ${comprobante.cliente.tipoFactura}</p>
+                <p><strong>Monto Total:</strong> $${comprobante.montoTotal}</p>
+                <hr>
+            `;
+            comprobanteInfo.innerHTML += comprobanteHTML;
+        }
+    }
+
+    comprobanteModal.style.display = "block";
 }

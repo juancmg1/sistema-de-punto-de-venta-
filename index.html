@@ -31,20 +31,20 @@
 
         <div class="contenedor-general">
             <div id="productList">
-                <!-- Aquí se mostrarán los productos -->
+              
             </div>
             <div class="contenedor-lista">
                 <div id="selectedProducts">
-                    <!-- Aquí se mostrarán los productos seleccionados -->
+                  
                 </div>
                 <div id="total">
-                    <!-- Aquí se mostrará el total -->
+                    
                 </div>
                 <button id="borrar-producto">Borrar Producto Seleccionado</button>
                 <button id="abrir-modal">Agregar Cliente</button>
                 <button id="pagarButton">Pagar</button>
+                <button id="mostrarComprobantesButton">Mostrar Comprobantes</button>
 
-                <!-- Modal oculto por defecto -->
                 <div id="modal" class="modal">
                     <div class="modal-contenido">
                         <span class="close" id="cerrar-modal">&times;</span>
@@ -81,12 +81,24 @@
              </div>
              
              <div id="comprobanteModal" class="modal">
-                <div class="modal-content">
+                <div class="modal-contenido">
                     <h2>Comprobante de Pago</h2>
                     <div id="comprobanteInfo">
-                        <!-- Aquí se mostrará la información del cliente y el monto total -->
+                       
                     </div>
                     <button id="cerrarComprobante">Cerrar</button>
+                    
+                    
+                </div>
+                <div class="modal-estilado">
+                    
+                    <div id="modalComprobantes" class="modal">
+                        <div class="modal-contenido">
+                            <h2>Comprobantes Guardados</h2>
+                            <div id="comprobantesList"></div>
+                            <button id="cerrarModalComprobantes">Cerrar</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             

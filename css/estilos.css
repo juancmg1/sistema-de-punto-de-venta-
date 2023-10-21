@@ -106,7 +106,7 @@
   width: 1200px;
   height: 800px;
   padding: 30px;
-  overflow: auto; /* Propiedad para habilitar la barra de desplazamiento */
+  overflow: auto;
   background-color: #393939;
 }
 
@@ -201,6 +201,31 @@
   width: 400px;
   font-family: ´fuente-principal´;
   font-size: 22px;
+}
+
+#mostrarComprobantesButton {
+  background-color: purple;
+  border: none;
+  color: white;
+  border-radius: 20px;
+  margin: 5px;
+  width: 400px;
+  font-family: ´fuente-principal´;
+  font-size: 22px;
+}
+
+.comprobanteModal.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-contenido {
+  display: flex;
+  justify-content: center;
+  width: 500px;
+  height: 100%;
+  overflow: auto;
 }
 
 /*# sourceMappingURL=estilos.css.map */
