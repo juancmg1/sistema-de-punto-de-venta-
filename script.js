@@ -178,7 +178,7 @@ function generarComprobante() {
     localStorage.setItem("numComprobantes", nuevoNumComprobantes);
     console.log("Comprobante generado:", comprobante);
     
-    // Resto del código para generar el comprobante
+    
 }
 
 
@@ -190,7 +190,7 @@ function generarComprobante() {
 
 
 function mostrarComprobante() {
-    // Resto del código para mostrar el comprobante
+    
     const comprobanteModal = document.getElementById("comprobanteModal");
     const comprobanteInfo = document.getElementById("comprobanteInfo");
 
