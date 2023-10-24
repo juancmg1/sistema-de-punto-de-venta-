@@ -22,8 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-
 const productos = [
     { nombre: "Manzana", precio: 1.50 },
     { nombre: "Banana", precio: 0.75 },
@@ -124,30 +122,33 @@ cerrarModalButton.addEventListener("click", () => {
 
 guardarClienteButton.addEventListener("click", () => {
     
-    const nombre = document.getElementById("nombre").value;
-    const tipoDNI = document.getElementById("tipo-dni").value;
-    const numeroDNI = document.getElementById("numero-dni").value;
-    const domicilio = document.getElementById("domicilio").value;
-    const email = document.getElementById("email").value;
-    const tipoFactura = document.getElementById("tipo-factura").value;
+    
+    
+        const nombre = document.getElementById("nombre").value;
+        const tipoDNI = document.getElementById("tipo-dni").value;
+        const numeroDNI = document.getElementById("numero-dni").value;
+        const domicilio = document.getElementById("domicilio").value;
+        const email = document.getElementById("email").value;
+        const tipoFactura = document.getElementById("tipo-factura").value;
+    
+       
+        console.log("Nombre del cliente: " + nombre);
+        console.log("Tipo de DNI: " + tipoDNI);
+        console.log("Número de DNI: " + numeroDNI);
+        console.log("Domicilio del cliente: " + domicilio);
+        console.log("Correo Electrónico del cliente: " + email);
+        console.log("Tipo de Factura: " + tipoFactura);
+    
+        modal.style.display = "none";
+    });
+ 
 
-   
-    console.log("Nombre del cliente: " + nombre);
-    console.log("Tipo de DNI: " + tipoDNI);
-    console.log("Número de DNI: " + numeroDNI);
-    console.log("Domicilio del cliente: " + domicilio);
-    console.log("Correo Electrónico del cliente: " + email);
-    console.log("Tipo de Factura: " + tipoFactura);
-
-    modal.style.display = "none";
-});
 document.addEventListener("DOMContentLoaded", function () {
     const pagarButton = document.getElementById("pagarButton");
     pagarButton.addEventListener("click", generarComprobante);
 });
 
 function generarComprobante() {
-    
     const nombre = document.getElementById("nombre").value;
     const tipoDNI = document.getElementById("tipo-dni").value;
     const numeroDNI = document.getElementById("numero-dni").value;
@@ -176,22 +177,20 @@ function generarComprobante() {
     localStorage.setItem(`comprobante${nuevoNumComprobantes}`, JSON.stringify(comprobante));
     localStorage.setItem("numComprobantes", nuevoNumComprobantes);
     console.log("Comprobante generado:", comprobante);
+    
+    // Resto del código para generar el comprobante
 }
 
-
-document.addEventListener("DOMContentLoaded", function () {
-  
 
     const pagarButton = document.getElementById("pagarButton");
     pagarButton.addEventListener("click", mostrarComprobante);
 
     const cerrarComprobanteButton = document.getElementById("cerrarComprobante");
     cerrarComprobanteButton.addEventListener("click", cerrarComprobante);
-});
-
 
 
 function mostrarComprobante() {
+    // Resto del código para mostrar el comprobante
     const comprobanteModal = document.getElementById("comprobanteModal");
     const comprobanteInfo = document.getElementById("comprobanteInfo");
 
@@ -219,7 +218,10 @@ function mostrarComprobante() {
     comprobanteInfo.innerHTML = comprobanteHTML;
 
     comprobanteModal.style.display = "block";
+
+    
 }
+
 
 function cerrarComprobante() {
     const comprobanteModal = document.getElementById("comprobanteModal");
@@ -228,14 +230,13 @@ function cerrarComprobante() {
 
 
 
-
 const mostrarComprobantesButton = document.getElementById("mostrarComprobantesButton");
 const comprobanteModal = document.getElementById("comprobanteModal");
 const comprobanteInfo = document.getElementById("comprobanteInfo");
 
-mostrarComprobantesButton.addEventListener("click", mostrarComprobantes);
+mostrarComprobantesButton.addEventListener("click", mostrarComprobantesgenerados);
 
-function mostrarComprobantes() {
+function mostrarComprobantesgenerados() {
     comprobanteInfo.innerHTML = ""; 
 
     for (let i = 1; i <= localStorage.getItem("numComprobantes"); i++) {
@@ -259,4 +260,8 @@ function mostrarComprobantes() {
     }
 
     comprobanteModal.style.display = "block";
+
 }
+
+
+
