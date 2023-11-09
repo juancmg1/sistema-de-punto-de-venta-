@@ -19,7 +19,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+    const clockDiv = document.getElementById('clock');
+    const timePara = document.getElementById('time');
+    const dayPara = document.getElementById('day');
 
+  
+    function updateTimeAndDay() {
+        const now = luxon.DateTime.now();
+
+   
+        timePara.textContent = `Hora actual: ${now.toLocaleString(luxon.DateTime.TIME_SIMPLE)}`;
+
+       
+        dayPara.textContent = `Día actual: ${now.toLocaleString(luxon.DateTime.DATE_FULL)}`;
+    }
+
+   
+    updateTimeAndDay();
+    setInterval(updateTimeAndDay, 1000);
 
 
 fetch("productos.json")
