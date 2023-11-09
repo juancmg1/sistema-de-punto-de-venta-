@@ -22,59 +22,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-const productos = [
-    { nombre: "Manzana", precio: 1.50 },
-    { nombre: "Banana", precio: 0.75 },
-    { nombre: "Naranja", precio: 1.25 },
-    { nombre: "Pera", precio: 1.75 },
-    { nombre: "Uvas", precio: 2.50 },
-    { nombre: "Frutillas", precio: 2.00 },
-    { nombre: "Sandía", precio: 3.50 },
-    { nombre: "Melón", precio: 2.75 },
-    { nombre: "Durazno", precio: 2.25 },
-    { nombre: "Kiwi", precio: 1.80 },
-    { nombre: "Mango", precio: 2.00 },
-    { nombre: "Piña", precio: 1.95 },
-    { nombre: "Cerezas", precio: 3.25 },
-    { nombre: "Higo", precio: 2.20 },
-    { nombre: "Almendras", precio: 4.00 },
-    { nombre: "Nueces", precio: 3.75 },
-    { nombre: "Palta", precio: 2.50 },
-    { nombre: "Frambuesas", precio: 3.00 },
-    { nombre: "Arándanos", precio: 3.50 },
-    { nombre: "Ciruelas", precio: 1.90 },
-    { nombre: "fruta del dragon", precio: 3}
-];
+fetch("productos.json")
+  .then(response => response.json())
+  .then(data => {
+    const productos = data.productos;
+    const productListContainer = document.getElementById("productList");
+    productListContainer.className = "pepe";
+
+    productos.forEach((producto, i) => { 
+      const productElement = document.createElement("button");
+      productElement.textContent = ` ${producto.nombre}, $${producto.precio}`;
+      productElement.classList.add("product-button");
+      productElement.addEventListener("click", () => agregarProducto(productos[i])); 
+
+      productListContainer.append(productElement);
+    });
+  });
+
+
 
 const productListDiv = document.getElementById("productList");
 const selectedProductsDiv = document.getElementById("selectedProducts");
 const totalDiv = document.getElementById("total");
 
-function actualizarListaProductos() {
-    productListDiv.innerHTML = "";
 
-    for (let i = 0; i < productos.length; i++) {
-        const productDiv = document.createElement("button");
-        productDiv.textContent = ` ${productos[i].nombre}, $${productos[i].precio}`;
-        productDiv.classList.add("product-button");
-        productDiv.addEventListener("click", () => agregarProducto(productos[i]));
-        productListDiv.appendChild(productDiv);
-    }
-}
 
 function agregarProducto(producto) {
     const selectedProductDiv = document.createElement("div");
     const productName = producto.nombre;
     const productPrice = producto.precio;
-    
+  
     selectedProductDiv.textContent = `Producto: ${productName}, Precio: $${productPrice}`;
-    
-    
+  
+    const selectedProductsDiv = document.getElementById("selectedProducts"); 
     selectedProductsDiv.appendChild(selectedProductDiv);
-    
-    
     calcularTotal();
-}
+  }
+  
 
 function calcularTotal() {
     const selectedProductDivs = selectedProductsDiv.children;
@@ -87,22 +71,22 @@ function calcularTotal() {
     }
 
     totalDiv.textContent = `Total: $${total.toFixed(2)}`;
-    return total;
+    return total; 
 }
 
 
-actualizarListaProductos();
+
 
 const borrarProductoButton = document.getElementById("borrar-producto");
 borrarProductoButton.addEventListener("click", borrarProductoSeleccionado);
 
 function borrarProductoSeleccionado() {
     const selectedProductDivs = selectedProductsDiv.children;
-    
+
     if (selectedProductDivs.length > 0) {
-        
+
         selectedProductsDiv.removeChild(selectedProductDivs[selectedProductDivs.length - 1]);
-       
+
         calcularTotal();
     }
 }
@@ -113,7 +97,7 @@ const guardarClienteButton = document.getElementById("guardar-cliente");
 const clienteForm = document.getElementById("cliente-form");
 
 abrirModalButton.addEventListener("click", () => {
-    modal.style.display = "block";
+    modal.style.display = "flex";
 });
 
 cerrarModalButton.addEventListener("click", () => {
@@ -121,27 +105,29 @@ cerrarModalButton.addEventListener("click", () => {
 });
 
 guardarClienteButton.addEventListener("click", () => {
-    
-    
-    
+
+
+
         const nombre = document.getElementById("nombre").value;
         const tipoDNI = document.getElementById("tipo-dni").value;
         const numeroDNI = document.getElementById("numero-dni").value;
         const domicilio = document.getElementById("domicilio").value;
         const email = document.getElementById("email").value;
         const tipoFactura = document.getElementById("tipo-factura").value;
-    
-       
+        const tipoPago = document.getElementById("tipo-pago").value;
+
+
         console.log("Nombre del cliente: " + nombre);
         console.log("Tipo de DNI: " + tipoDNI);
         console.log("Número de DNI: " + numeroDNI);
         console.log("Domicilio del cliente: " + domicilio);
         console.log("Correo Electrónico del cliente: " + email);
         console.log("Tipo de Factura: " + tipoFactura);
-    
+        console.log("Tipo de Pago: " + tipoPago);
+
         modal.style.display = "none";
     });
- 
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const pagarButton = document.getElementById("pagarButton");
@@ -155,11 +141,16 @@ function generarComprobante() {
     const domicilio = document.getElementById("domicilio").value;
     const email = document.getElementById("email").value;
     const tipoFactura = document.getElementById("tipo-factura").value;
+    const tipoPago = document.getElementById("tipo-pago").value;
 
-    
+
+
     const total = calcularTotal();
 
-  
+
+
+
+
     const comprobante = {
         cliente: {
             nombre,
@@ -168,17 +159,23 @@ function generarComprobante() {
             domicilio,
             email,
             tipoFactura,
+            tipoPago,
         },
         montoTotal: total,
     };
+    if (tipoPago === "efectivo") {
+        totalEfectivo += total;
+    } else if (tipoPago === "tarjeta") {
+        totalTarjeta += total;
+    }
 
     const numComprobantes = parseInt(localStorage.getItem("numComprobantes")) || 0;
     const nuevoNumComprobantes = numComprobantes + 1;
     localStorage.setItem(`comprobante${nuevoNumComprobantes}`, JSON.stringify(comprobante));
     localStorage.setItem("numComprobantes", nuevoNumComprobantes);
     console.log("Comprobante generado:", comprobante);
-    
-    
+
+
 }
 
 
@@ -190,17 +187,18 @@ function generarComprobante() {
 
 
 function mostrarComprobante() {
-    
+
     const comprobanteModal = document.getElementById("comprobanteModal");
     const comprobanteInfo = document.getElementById("comprobanteInfo");
 
-    
+
     const nombre = document.getElementById("nombre").value;
     const tipoDNI = document.getElementById("tipo-dni").value;
     const numeroDNI = document.getElementById("numero-dni").value;
     const domicilio = document.getElementById("domicilio").value;
     const email = document.getElementById("email").value;
     const tipoFactura = document.getElementById("tipo-factura").value;
+    const tipoPago = document.getElementById("tipo-pago").value;
 
     const total = calcularTotal();
 
@@ -211,15 +209,16 @@ function mostrarComprobante() {
         <p><strong>Domicilio:</strong> ${domicilio}</p>
         <p><strong>Correo Electrónico:</strong> ${email}</p>
         <p><strong>Tipo de Factura:</strong> ${tipoFactura}</p>
+        <p><strong>Tipo de pago:</strong> ${tipoPago}</p>
         <p><strong>Monto Total:</strong> $${total}</p>
     `;
 
-    
+
     comprobanteInfo.innerHTML = comprobanteHTML;
 
-    comprobanteModal.style.display = "block";
+    comprobanteModal.style.display = "flex";
 
-    
+
 }
 
 
@@ -237,7 +236,7 @@ const comprobanteInfo = document.getElementById("comprobanteInfo");
 mostrarComprobantesButton.addEventListener("click", mostrarComprobantesgenerados);
 
 function mostrarComprobantesgenerados() {
-    comprobanteInfo.innerHTML = ""; 
+    comprobanteInfo.innerHTML = "";
 
     for (let i = 1; i <= localStorage.getItem("numComprobantes"); i++) {
         const comprobanteKey = `comprobante${i}`;
@@ -251,6 +250,7 @@ function mostrarComprobantesgenerados() {
                 <p><strong>Número de DNI:</strong> ${comprobante.cliente.numeroDNI}</p>
                 <p><strong>Domicilio:</strong> ${comprobante.cliente.domicilio}</p>
                 <p><strong>Correo Electrónico:</strong> ${comprobante.cliente.email}</p>
+                <p><strong>Tipo de Pago:</strong> ${comprobante.cliente.tipoPago}</p>
                 <p><strong>Tipo de Factura:</strong> ${comprobante.cliente.tipoFactura}</p>
                 <p><strong>Monto Total:</strong> $${comprobante.montoTotal}</p>
                 <hr>
@@ -259,9 +259,9 @@ function mostrarComprobantesgenerados() {
         }
     }
 
-    comprobanteModal.style.display = "block";
+    comprobanteModal.style.display = "flex";
 
 }
 
-
-
+let totalEfectivo = 0;
+let totalTarjeta = 0;
